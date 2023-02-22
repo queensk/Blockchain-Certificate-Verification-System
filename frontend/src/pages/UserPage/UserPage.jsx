@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import { UserProfile } from "../../components/UserProfile";
 import "./UserPage.css";
 
 export default function UserPage() {
+  const [activeMenu, setActiveMenu] = useState("");
+
+  const handleMenuClick = (menu) => {
+    setActiveMenu(menu);
+  };
+
   return (
     <div className="user-data">
-      <NavBar />
+      <NavBar handleMenuClick={handleMenuClick} activeMenu={activeMenu} />
       <div className="User-Main-content">
-        <UserProfile />
+        {activeMenu === "UserProfile" && <UserProfile />}
       </div>
     </div>
   );
