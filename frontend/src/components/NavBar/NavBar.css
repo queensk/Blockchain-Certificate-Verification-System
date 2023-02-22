@@ -5,6 +5,7 @@
 .sidebar-container {
   display: flex;
   height: 100vh;
+  position: fixed;
 }
 
 .sidebar {
