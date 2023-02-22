@@ -36,7 +36,17 @@ export default function NavBar({ handleMenuClick, activeMenu }) {
         >
           <TbCertificate />
         </div>
-        <div className="nav_content" data-tooltip="Approval">
+        <div
+          className={
+            activeMenu === "ApprovedCertificate"
+              ? "active nav_content"
+              : "nav_content"
+          }
+          onClick={() => {
+            handleMenuClick("ApprovedCertificate");
+          }}
+          data-tooltip="Approved Certificate"
+        >
           <FcApproval />
         </div>
         <div className="nav_content" data-tooltip="Pending Approval">
