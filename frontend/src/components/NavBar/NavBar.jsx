@@ -49,7 +49,17 @@ export default function NavBar({ handleMenuClick, activeMenu }) {
         >
           <FcApproval />
         </div>
-        <div className="nav_content" data-tooltip="Pending Approval">
+        <div
+          className={
+            activeMenu === "PendingApproval"
+              ? "active nav_content"
+              : "nav_content"
+          }
+          onClick={() => {
+            handleMenuClick("PendingApproval");
+          }}
+          data-tooltip="Pending Approval"
+        >
           <FcClock />
         </div>
         <div className="about-section nav_content" data-tooltip="About">
