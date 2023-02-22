@@ -36,21 +36,23 @@ export default function UploadFile() {
   };
 
   return (
-    <div
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      style={{
-        border: `2px dashed ${dragging ? "blue" : "black"}`,
-        padding: "16px",
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Upload</button>
-      </form>
-      {file && <p>Selected file: {file.name}</p>}
-    </div>
+    <>
+      <div
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        style={{
+          border: `2px dashed ${dragging ? "blue" : "black"}`,
+          padding: "16px",
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <input type="file" onChange={handleFileChange} />
+        </form>
+        {file && <p>Selected file: {file.name}</p>}
+      </div>
+      <button type="submit">Upload PDF</button>
+    </>
   );
 }
