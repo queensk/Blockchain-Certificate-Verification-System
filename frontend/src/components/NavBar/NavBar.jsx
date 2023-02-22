@@ -23,7 +23,17 @@ export default function NavBar({ handleMenuClick, activeMenu }) {
         >
           <BsPersonFill />
         </div>
-        <div className="nav_content" data-tooltip="Certificates">
+        <div
+          className={
+            activeMenu === "UserCertificates"
+              ? "active nav_content"
+              : "nav_content"
+          }
+          onClick={() => {
+            handleMenuClick("UserCertificates");
+          }}
+          data-tooltip="Certificates"
+        >
           <TbCertificate />
         </div>
         <div className="nav_content" data-tooltip="Approval">
