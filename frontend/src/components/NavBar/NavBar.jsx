@@ -5,14 +5,22 @@ import { TbCertificate } from "react-icons/tb";
 import { FcAbout, FcApproval, FcClock } from "react-icons/fc";
 import { BsPersonFill } from "react-icons/bs";
 
-export default function NavBar() {
+export default function NavBar({ handleMenuClick, activeMenu }) {
   return (
     <nav className="sidebar-container">
       <div className="sidebar">
         <div className="NavBar">
           <img src={logo} alt="Logo" />
         </div>
-        <div className="nav_content" data-tooltip="Profile">
+        <div
+          className={
+            activeMenu === "UserProfile" ? "active nav_content" : "nav_content"
+          }
+          onClick={() => {
+            handleMenuClick("UserProfile");
+          }}
+          data-tooltip="Profile"
+        >
           <BsPersonFill />
         </div>
         <div className="nav_content" data-tooltip="Certificates">
