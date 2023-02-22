@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import { UserProfile } from "../../components/UserProfile";
 import UserCertificates from "../../components/UserCertificates/UserCertificates";
 import ApprovedCertificate from "../../components/ApprovedCertificate/ApprovedCertificate";
+import PendingApproval from "../../components/PendingApproval/PendingApproval";
 import "./UserPage.css";
 
 export default function UserPage() {
@@ -20,6 +21,7 @@ export default function UserPage() {
         {activeMenu === "UserProfile" && <UserProfile />}
         {activeMenu === "UserCertificates" && <UserCertificates />}
         {activeMenu === "ApprovedCertificate" && <ApprovedCertificate />}
+        {activeMenu === "PendingApproval" && <PendingApproval />}
       </div>
     </div>
   );
