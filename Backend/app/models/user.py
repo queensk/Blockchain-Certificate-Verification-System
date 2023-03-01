@@ -2,8 +2,8 @@
 """
 User object class
 """
-import models
-from models.base_model import BaseModel, Base
+from app import models
+from app.models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
@@ -20,8 +20,16 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
-    places = relationship("Place", backref="user")
-    reviews = relationship("Review", backref="user")
+    certificates = relationship(
+        "Certificate",
+        backref='user',
+        lazy='dynamic',
+        cascade="all, delete, delete-orphan")
+    schools = relationship(
+        "School",
+        backref="user",
+        lazy='dynamic',
+        cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """
