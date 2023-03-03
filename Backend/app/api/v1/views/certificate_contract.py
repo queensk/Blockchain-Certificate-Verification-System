@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-University connection route to contract
+Certificate connection route to contract
 """
 from web3 import Web3
 from flask import jsonify, request, abort
