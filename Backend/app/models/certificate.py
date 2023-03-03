@@ -22,6 +22,7 @@ class Certificate(BaseModel, Base):
     school_department = Column(String(128), nullable=True)
     school_location = Column(String(128), nullable=True)
     certificate_verify = Column(Boolean, nullable=False, default=False)
+    certificate_hash = Column(String(128))
     user_id = Column(String(60), ForeignKey('users.id'))
     school_id = Column(String(60), ForeignKey('schools.id'))
 
