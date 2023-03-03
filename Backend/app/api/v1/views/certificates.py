@@ -54,15 +54,24 @@ def post_certificate():
     """
     Creates a certificate
     """
-    if not request.get_json():
-        abort(400, description="Not a JSON")
-
-    if 'email' not in request.get_json():
-        abort(400, description="Missing email")
-    if 'password' not in request.get_json():
-        abort(400, description="Missing password")
-
     data = request.get_json()
+    if not data:
+        abort(400, description="Not a JSON")
+    if 'student_name' not in data:
+        abort(400, description="student_name")
+    if 'student_email' not in data:
+        abort(400, description="Missing student email")
+    if "school_id" not in data:
+        abort(400, 'Missing school id')
+    if "school_name" not in data:
+        abort(400, 'Missing school name')
+    if "school_major" not in data:
+        abort(400, 'Missing school major')
+    if "school_department" not in data:
+        abort(400, "Missing school department")
+    if "school_location" not in data:
+        abort(400, "MIssing school location")
+
     instance = Certificate(**data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
