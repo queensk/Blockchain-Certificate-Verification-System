@@ -18,9 +18,14 @@ bytecode = certificate_json['bytecode']
 
 w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
 contract_address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-contract = w3.eth.contract(address=contract_address, abi=contract_abi, bytecode=bytecode)
+contract = w3.eth.contract(
+    address=contract_address,
+    abi=contract_abi,
+    bytecode=bytecode)
 
 # Flask routes
+
+
 @app_views.route('/add-certificate', methods=['POST'])
 def add_contract_certificate():
     """
@@ -45,16 +50,23 @@ def add_contract_certificate():
         account = w3.eth.accounts[0]
 
         # Build the transaction to add the certificate to the contract
-        tx_hash = contract.functions.addCertificate(name, school_name, school_major, school_department, certificate_hash).transact({
-            'from': account,
-        })
+        tx_hash = contract.functions.addCertificate(
+            name,
+            school_name,
+            school_major,
+            school_department,
+            certificate_hash).transact(
+            {
+                'from': account,
+            })
 
         # Wait for the transaction to be mined
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         if not receipt:
             abort(404, description="Failed minting of certificate")
 
-        certificate_info = contract.functions.getCertificateInfo(certificate_hash).call()
+        certificate_info = contract.functions.getCertificateInfo(
+            certificate_hash).call()
         if not certificate_info:
             abort(404, description="Certificate not created successfully")
 
@@ -83,8 +95,9 @@ def get_contract_certificate(certificate_hash):
     """
     try:
         # Get certificate data from contract function
-        certificate_info = contract.functions.getCertificateInfo(bytes.fromhex(certificate_hash)).call()
-        
+        certificate_info = contract.functions.getCertificateInfo(
+            bytes.fromhex(certificate_hash)).call()
+
         # Construct the response JSON
         response = {
             'certificate_hash': certificate_info[0].hex(),
@@ -96,24 +109,27 @@ def get_contract_certificate(certificate_hash):
         }
 
         return jsonify({'success': True, 'certificate_data': response})
-    
+
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
 
-@app_views.route('/verify-certificate/<string:certificate_hash>', methods=['PUT'])
+
+@app_views.route('/verify-certificate/<string:certificate_hash>',
+                 methods=['PUT'])
 def verify_contract_certificate(certificate_hash):
     """
     Verify a certificate
     """
     try:
         account = w3.eth.accounts[0]
-        tx_hash = contract.functions.verifyCertificate(bytes.fromhex(certificate_hash)).transact({
-            'from': account,
-        })
+        tx_hash = contract.functions.verifyCertificate(
+            bytes.fromhex(certificate_hash)).transact({'from': account, })
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         if not receipt:
-            return jsonify({'success': False, 'message': 'Transaction failed to execute.'}), 400
-        certificate_info = contract.functions.getCertificateInfo(bytes.fromhex(certificate_hash)).call()
+            return jsonify(
+                {'success': False, 'message': 'Transaction failed to execute.'}), 400
+        certificate_info = contract.functions.getCertificateInfo(
+            bytes.fromhex(certificate_hash)).call()
         response = {
             'certificate_hash': certificate_info[0].hex(),
             'student_name': certificate_info[1],
