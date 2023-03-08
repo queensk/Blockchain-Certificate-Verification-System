@@ -109,6 +109,20 @@ class DBstorage:
 
         return None
 
+    def get(self, cls, email):
+        """
+        Return an object based on classname and email
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if isinstance(value, User) and value.email == email:
+                return value
+
+        return None
+
     def count(self, cls=None):
         """
         Count objects
