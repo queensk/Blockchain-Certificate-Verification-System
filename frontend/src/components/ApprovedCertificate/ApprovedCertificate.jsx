@@ -1,10 +1,16 @@
 import React from "react";
+import Certificate from "../Certificate/Certificate";
 
 export default function ApprovedCertificate() {
   const certificates = [
-    { name: "Certificate 1", issuer: "Issuer 1", date: "Jan 1, 2022" },
-    { name: "Certificate 2", issuer: "Issuer 2", date: "Feb 1, 2022" },
-    { name: "Certificate 3", issuer: "Issuer 3", date: "Mar 1, 2022" },
+    {
+      student_name: "John Smith",
+      student_email: "john.smith@example.com",
+      school_name: "Computer Science",
+      school_major: "Computer Science",
+      school_department: "Programming",
+      school_location: "Example University",
+    },
   ];
 
   return (
@@ -13,9 +19,7 @@ export default function ApprovedCertificate() {
       <ul>
         {certificates.map((certificate, index) => (
           <li key={index}>
-            <h3>{certificate.name}</h3>
-            <p>Issuer: {certificate.issuer}</p>
-            <p>Date: {certificate.date}</p>
+            <Certificate {...certificate} />
           </li>
         ))}
       </ul>
