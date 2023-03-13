@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../../components/NavBar/NavBar";
+import SchoolNavBar from "../../components/SchoolNavBar/SchoolNavBar";
 import { UserProfile } from "../../components/UserProfile";
 import UserCertificates from "../../components/UserCertificates/UserCertificates";
 import ApprovedCertificate from "../../components/ApprovedCertificate/ApprovedCertificate";
@@ -23,7 +23,7 @@ export default function School({
   return (
     <div className="user-data">
       school
-      <NavBar
+      <SchoolNavBar
         handleMenuClick={handleMenuClick}
         activeMenu={activeMenu}
         setToken={setToken}
