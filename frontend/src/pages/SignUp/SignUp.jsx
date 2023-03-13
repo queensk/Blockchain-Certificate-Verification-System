@@ -1,12 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SignUpInput from "../../components/SignUp/SignUp";
 import SignIn from "../../components/SignIn/SignIn";
 import "./SignUp.css";
 
-export default function SignUp() {
+export default function SignUp({ authenticated, setToken }) {
   const signUpRef = useRef(null);
   const logInRef = useRef(null);
   const [showSignUp, setShowSignUp] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate("/user");
+    }
+  }, [authenticated, navigate]);
 
   function handleTabClick(event) {
     if (event.target === signUpRef.current) {
@@ -34,7 +42,11 @@ export default function SignUp() {
           Log In
         </li>
       </ul>
-      {showSignUp ? <SignUpInput /> : <SignIn />}
+      {showSignUp ? (
+        <SignUpInput />
+      ) : (
+        <SignIn authenticated={authenticated} setToken={setToken} />
+      )}
     </div>
   );
 }
