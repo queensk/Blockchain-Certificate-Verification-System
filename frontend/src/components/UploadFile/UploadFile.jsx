@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import storage from "../../config/firebase/firebaseConfig";
 import PDFDataExtractor from "../PDFDataExtractor/PDFDataExtractor";
-import api from "../../api/api";
+import api from "../../api/api.jsx";
 import ErrorPopUp from "../MessagePopUp/MessagePopUp";
 
 export default function UploadFile({ userId, firstName, lastName }) {
