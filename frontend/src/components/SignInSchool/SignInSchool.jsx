@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../../api/api";
+import api from "../../api/api.jsx";
 import TextInput from "../TextInput/TextInput";
 import MessagePopUp from "../MessagePopUp/MessagePopUp";
 
