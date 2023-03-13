@@ -9,9 +9,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4% 3%;
-  background-color: #f2f2f2;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 2% 1%;
+  /* background-color: #f2f2f2; */
+  /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
   margin: 2%;
 }
 .user-certificates input {
@@ -23,7 +23,7 @@
   background-color: #c02424;
   border: 1px solid;
   margin: 1% 0;
-  padding: 2% 1%;
+  padding: 1% 1%;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -31,4 +31,34 @@
   color: #c02424;
   border: 1px solid #c02424;
   background-color: #fff;
+}
+.user-certificates input,
+textarea {
+  color: #000;
+  margin: 10px 0;
+}
+.user-certificates {
+  font-size: 20px;
+}
+
+.certificate-user-data,
+.upload-certificate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2% 1%;
+  background-color: #f2f2f2;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 2%;
+  width: 100%;
+}
+.certificate-user-data .certificate-input {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: ; */
+  align-items: center;
+}
+.certificate-user-data .certificate-input input {
+  margin: 20px;
 }

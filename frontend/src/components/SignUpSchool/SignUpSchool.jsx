@@ -3,34 +3,34 @@ import TextInput from "../TextInput/TextInput";
 import api from "../../api/api";
 import MessagePopUp from "../MessagePopUp/MessagePopUp";
 
-export default function SignUpInput() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+export default function SignUpSchool() {
+  const [schoolName, setSchoolName] = useState("");
+  const [schoolLocation, setSchoolLocation] = useState("");
+  const [schoolEmail, setSchoolEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [signUpMessage, setSignUpMessage] = useState("");
 
   const data = {
-    email: userEmail,
+    email: schoolEmail,
     password: userPassword,
-    first_name: firstName,
-    last_name: lastName,
+    school_name: schoolName,
+    school_location: schoolLocation,
   };
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (!firstName || !lastName || !userEmail || !userPassword) {
+    if (!schoolName || !schoolLocation || !schoolEmail || !userPassword) {
       setSignUpMessage("Please fill out all fields.");
       return;
     }
     api
-      .post("/users", data)
+      .post("/schools", data)
       .then((response) => {
         if (response.status === 201) {
           setSignUpMessage(`Successfully SignUp ${response.data.email}`);
           setUserPassword("");
-          setUserEmail("");
-          setLastName("");
-          setFirstName("");
+          setSchoolEmail("");
+          setSchoolLocation("");
+          setSchoolName("");
         }
       })
       .catch((error) => {
@@ -51,28 +51,28 @@ export default function SignUpInput() {
           <h1>Sign Up</h1>
         </div>
         <TextInput
-          label="first name"
+          label="School Name"
           type="text"
           name="name"
-          placeholder="First Name"
-          value={firstName}
-          setValue={setFirstName}
+          placeholder="School Name"
+          value={schoolName}
+          setValue={setSchoolName}
         />
         <TextInput
-          label="Last name"
+          label="School Location"
           type="text"
           name="name"
-          placeholder="Last Name"
-          value={lastName}
-          setValue={setLastName}
+          placeholder="School Location"
+          value={schoolLocation}
+          setValue={setSchoolLocation}
         />
         <TextInput
-          label="email"
-          type="email"
-          name="email"
-          placeholder="email"
-          value={userEmail}
-          setValue={setUserEmail}
+          label="school email"
+          type="school email"
+          name="school email"
+          placeholder="school Email"
+          value={schoolEmail}
+          setValue={setSchoolEmail}
         />
         <TextInput
           label="password"

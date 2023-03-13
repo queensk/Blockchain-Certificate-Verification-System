@@ -1,24 +1,15 @@
 import React, { useState } from "react";
+import Certificate from "../Certificate/Certificate";
 
 export default function PendingApproval() {
   const certificates = [
     {
-      name: "Certificate 1",
-      issuer: "Issuer 1",
-      date: "Jan 1, 2022",
-      verified: false,
-    },
-    {
-      name: "Certificate 2",
-      issuer: "Issuer 2",
-      date: "Feb 1, 2022",
-      verified: true,
-    },
-    {
-      name: "Certificate 3",
-      issuer: "Issuer 3",
-      date: "Mar 1, 2022",
-      verified: false,
+      student_name: "John Smith",
+      student_email: "john.smith@example.com",
+      school_name: "Computer Science",
+      school_major: "Computer Science",
+      school_department: "Programming",
+      school_location: "Example University",
     },
   ];
 
@@ -36,14 +27,10 @@ export default function PendingApproval() {
       <ul>
         {certificateList.map((certificate, index) => (
           <li key={index}>
-            <h3>{certificate.name}</h3>
-            <p>Issuer: {certificate.issuer}</p>
-            <p>Date: {certificate.date}</p>
-            {certificate.verified ? (
-              <p>Verified</p>
-            ) : (
-              <button onClick={() => handleVerify(index)}>Verify</button>
-            )}
+            <Certificate {...certificate} />
+            <button onClick={() => handleVerify(index)}>
+              Request Verification
+            </button>
           </li>
         ))}
       </ul>

@@ -5,7 +5,16 @@ import { TbCertificate } from "react-icons/tb";
 import { FcAbout, FcApproval, FcClock } from "react-icons/fc";
 import { BsPersonFill } from "react-icons/bs";
 
-export default function NavBar({ handleMenuClick, activeMenu }) {
+export default function NavBar({
+  handleMenuClick,
+  activeMenu,
+  setToken,
+  setAuthenticated,
+}) {
+  const handleLogOut = () => {
+    localStorage.clear();
+    setAuthenticated(false);
+  };
   return (
     <nav className="sidebar-container">
       <div className="sidebar">
@@ -62,10 +71,22 @@ export default function NavBar({ handleMenuClick, activeMenu }) {
         >
           <FcClock />
         </div>
-        <div className="about-section nav_content" data-tooltip="About">
+        <div
+          className={
+            activeMenu === "About"
+              ? "active about-section nav_content"
+              : "about-section nav_content"
+          }
+          onClick={() => {
+            handleMenuClick("About");
+          }}
+          data-tooltip="About"
+        >
           <FcAbout />
         </div>
-        <button className="log_out">Log out</button>
+        <button onClick={handleLogOut} className="log_out">
+          Log out
+        </button>
       </div>
     </nav>
   );

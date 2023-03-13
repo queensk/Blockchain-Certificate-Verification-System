@@ -100,3 +100,7 @@
   transition: all 0.3s ease;
   transition-delay: 30s;
 }
+.log_out:hover,
+.log_out:active {
+  background-color: #c02424;
+}

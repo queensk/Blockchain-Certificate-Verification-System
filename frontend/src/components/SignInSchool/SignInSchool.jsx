@@ -3,7 +3,7 @@ import api from "../../api/api";
 import TextInput from "../TextInput/TextInput";
 import MessagePopUp from "../MessagePopUp/MessagePopUp";
 
-export default function SignIn({ authenticated, setToken }) {
+export default function SignInSchool({ authenticated, setToken }) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [signUpMessage, setSignUpMessage] = useState("");
@@ -27,6 +27,7 @@ export default function SignIn({ authenticated, setToken }) {
       })
       .catch((error) => {
         localStorage.clear();
+        console.log(error);
         setSignUpMessage("An error occurred while connecting th the server");
       });
   };
@@ -41,10 +42,10 @@ export default function SignIn({ authenticated, setToken }) {
           <h1>Sign In</h1>
         </div>
         <TextInput
-          label="email"
-          type="email"
-          name="email"
-          placeholder="email"
+          label="school email"
+          type="school email"
+          name="school email"
+          placeholder="school email"
           value={signInEmail}
           setValue={setSignInEmail}
         />
