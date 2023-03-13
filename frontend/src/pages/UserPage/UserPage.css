@@ -20,6 +20,10 @@
   margin: 1%;
   padding: 3%;
 }
+.user-profile-data label {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
 .user-profile-image {
   display: flex;
   align-items: center;
