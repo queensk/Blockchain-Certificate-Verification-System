@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import storage from "../../config/firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ErrorPopUp from "../MessagePopUp/MessagePopUp";
-import api from "../../api/api";
+import api from "../../api/api.jsx";
 
 export default function User({
   email,
