@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SchoolNavBar from "../../components/SchoolNavBar/SchoolNavBar";
-import { UserProfile } from "../../components/UserProfile";
+import SchoolProfile from "../../components/SchoolProfile/SchoolProfile";
 import UserCertificates from "../../components/UserCertificates/UserCertificates";
 import ApprovedCertificate from "../../components/ApprovedCertificate/ApprovedCertificate";
 import PendingApproval from "../../components/PendingApproval/PendingApproval";
@@ -22,7 +22,6 @@ export default function School({
 
   return (
     <div className="user-data">
-      school
       <SchoolNavBar
         handleMenuClick={handleMenuClick}
         activeMenu={activeMenu}
@@ -31,7 +30,7 @@ export default function School({
       />
       <div className="dummy-nav"></div>
       <div className="User-Main-content">
-        {activeMenu === "UserProfile" && <UserProfile userId={userId} />}
+        {activeMenu === "UserProfile" && <SchoolProfile userId={userId} />}
         {activeMenu === "UserCertificates" && (
           <UserCertificates
             userId={userId}
