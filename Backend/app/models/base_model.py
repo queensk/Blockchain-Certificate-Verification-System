@@ -51,7 +51,7 @@ class BaseModel:
                 self.updated_at = datetime.strptime(kwargs["updated_at"], str)
             else:
                 self.created_at = datetime.utcnow()
-            if kwargs.get("id", None) and isinstance(self.id, str):
+            if kwargs.get("id", None) is None:
                 self.id = str(uuid.uuid4())
         else:
             self.id = str(uuid.uuid4())
@@ -71,7 +71,7 @@ class BaseModel:
         """
         self.updated_at = datetime.utcnow()
         models.storage.new(self)
-        models.storage.save(self)
+        models.storage.save()
 
     def to_dict(self, save_fs=None):
         """
