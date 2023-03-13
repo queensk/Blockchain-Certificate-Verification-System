@@ -109,7 +109,7 @@ class DBstorage:
 
         return None
 
-    def get(self, cls, email):
+    def get_email(self, cls, email):
         """
         Return an object based on classname and email
         """
@@ -120,7 +120,8 @@ class DBstorage:
         for value in all_cls.values():
             if isinstance(value, User) and value.email == email:
                 return value
-
+            if isinstance(value, School) and value.email == email:
+                return value
         return None
 
     def count(self, cls=None):
