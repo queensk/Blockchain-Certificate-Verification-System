@@ -62,3 +62,20 @@ textarea {
 .certificate-user-data .certificate-input input {
   margin: 20px;
 }
+.certificate-user-data-head {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: blue; */
+}
+.certificate-user-data-head h3 {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  margin: 0;
+}
+.certificate-user-data p {
+  padding: 0;
+  margin: 0;
+}
