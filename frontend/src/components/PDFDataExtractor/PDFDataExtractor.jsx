@@ -1,25 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import api from "../../api/api";
+import { AuthContext } from "../../CustomHooks/Context/AuthProvider";
+import Search from "../Search/Search";
 
 function PDFDataExtractor({ pdfData }) {
-  const [name, setName] = useState(pdfData.name);
-  const [email, setEmail] = useState(pdfData.email);
-  const [schoolId, setSchoolId] = useState(pdfData.school_id);
-  const [school, setSchool] = useState(pdfData.school);
-  const [schoolMajor, setSchoolMajor] = useState(pdfData.school_major);
-  const [schoolDepartment, setSchoolDepartment] = useState(
-    pdfData.school_department
-  );
-  const [schoolLocation, setSchoolLocation] = useState(pdfData.school_location);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [schoolId, setSchoolId] = useState("");
+  const [school, setSchool] = useState("");
+  const [schoolMajor, setSchoolMajor] = useState("");
+  const [schoolDepartment, setSchoolDepartment] = useState("");
+  const [schoolLocation, setSchoolLocation] = useState("");
+  const { userId, userRole } = useContext(AuthContext);
+  const [schoolSearchData, setSchoolSearchData] = useState(null);
+  const [schoolSearchInputData, setSchoolSearchInputData] = useState(null);
 
   useEffect(() => {
     setName(pdfData.name);
     setEmail(pdfData.email);
-    setSchoolId(pdfData.school_id);
-    setSchool(pdfData.school);
+    setSchoolId(
+      schoolSearchInputData ? schoolSearchInputData.id : pdfData.school_id
+    );
+    setSchool(
+      schoolSearchInputData ? schoolSearchInputData.school_name : pdfData.school
+    );
     setSchoolMajor(pdfData.school_major);
     setSchoolDepartment(pdfData.school_department);
-    setSchoolLocation(pdfData.school_location);
-  }, [pdfData]);
+    setSchoolLocation(
+      schoolSearchInputData
+        ? schoolSearchInputData.school_location
+        : pdfData.school_location
+    );
+    handleSchoolData();
+  }, [pdfData, schoolSearchInputData]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -30,7 +43,11 @@ function PDFDataExtractor({ pdfData }) {
   };
 
   const handleSchoolIdChange = (event) => {
-    setSchoolId(event.target.value);
+    if (userRole === "school") {
+      setSchoolId(userId);
+    } else {
+      setSchoolId(event.target.value);
+    }
   };
 
   const handleSchoolChange = (event) => {
@@ -48,10 +65,31 @@ function PDFDataExtractor({ pdfData }) {
   const handleSchoolLocationChange = (event) => {
     setSchoolLocation(event.target.value);
   };
-
+  const handleSchoolData = () => {
+    api
+      .get("/schools")
+      .then((results) => {
+        setSchoolSearchData(results.data);
+        console.log(results);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="certificate-user-data">
-      <p>Edit data extracted from pdf</p>
+      <div className="certificate-user-data-head">
+        <h3>EXTRACTED DATA FROM PDF DATA</h3>
+        <p>
+          You can edit the data extracted from pdf. If you don't have a PDF
+          ender the data of your certificate in the input section.
+        </p>
+        <h3 className="school-search">search for school by name</h3>
+      </div>
+      <Search
+        data={schoolSearchData}
+        setSchoolSearchInputData={setSchoolSearchInputData}
+      />
       <div className="certificate-input">
         <label>
           Name
@@ -95,7 +133,6 @@ function PDFDataExtractor({ pdfData }) {
         </label>
       </div>
       <button type="submit">Add certificate</button>
-      <button type="submit">Check certificate verification</button>
     </div>
   );
 }
