@@ -6,6 +6,7 @@ import UserPage from "./pages/UserPage/UserPage";
 import School from "./pages/School/School";
 import { AuthContext } from "./CustomHooks/Context/AuthProvider";
 import SignUpSchoolPage from "./pages/SignUpSchoolPage/SignUpSchoolPage";
+import Admin from "./pages/Admin/Admin";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
           }
         />
         {/* </Route> */}
-        {/* <Route path="/admin" element={<Admin />} /> */}
+        <Route path="/admin/dashboard" element={<Admin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
