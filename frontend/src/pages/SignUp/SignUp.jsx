@@ -4,7 +4,7 @@ import SignUpInput from "../../components/SignUp/SignUp";
 import SignIn from "../../components/SignIn/SignIn";
 import "./SignUp.css";
 
-export default function SignUp({ authenticated, setToken }) {
+export default function SignUp({ authenticated, setToken, token }) {
   const signUpRef = useRef(null);
   const logInRef = useRef(null);
   const [showSignUp, setShowSignUp] = useState(true);
@@ -12,9 +12,12 @@ export default function SignUp({ authenticated, setToken }) {
 
   useEffect(() => {
     if (authenticated) {
-      navigate("/user");
+      navigate("/user/dashboard");
     }
   }, [authenticated, navigate]);
+  // if (authenticated) {
+  //   return navigate("/user/dashboard");
+  // }
 
   function handleTabClick(event) {
     if (event.target === signUpRef.current) {
@@ -45,7 +48,11 @@ export default function SignUp({ authenticated, setToken }) {
       {showSignUp ? (
         <SignUpInput />
       ) : (
-        <SignIn authenticated={authenticated} setToken={setToken} />
+        <SignIn
+          authenticated={authenticated}
+          setToken={setToken}
+          token={token}
+        />
       )}
     </div>
   );
