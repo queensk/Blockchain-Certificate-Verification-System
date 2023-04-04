@@ -1,0 +1,36 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer-component {
+  background-color: #f7f7f7;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto; /* this will push the footer to the bottom */
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-links span {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-links span:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer-links span {
+    margin: 5px;
+  }
+}
