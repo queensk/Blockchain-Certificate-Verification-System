@@ -12,8 +12,9 @@ export default function NavBar({
   setAuthenticated,
 }) {
   const handleLogOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("appCertificate");
     setAuthenticated(false);
+    setToken(null);
   };
   return (
     <nav className="sidebar-container">
