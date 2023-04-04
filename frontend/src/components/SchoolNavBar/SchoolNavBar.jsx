@@ -4,6 +4,7 @@ import "./SchoolNavBar.css";
 import { TbCertificate } from "react-icons/tb";
 import { FcAbout, FcApproval, FcClock } from "react-icons/fc";
 import { BsPersonFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar({
   handleMenuClick,
@@ -11,9 +12,12 @@ export default function NavBar({
   setToken,
   setAuthenticated,
 }) {
+  const navigate = useNavigate();
   const handleLogOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("appCertificate");
     setAuthenticated(false);
+    setToken(null);
+    navigate("/school/signup");
   };
   return (
     <nav className="sidebar-container">
@@ -84,7 +88,12 @@ export default function NavBar({
         >
           <FcAbout />
         </div>
-        <button onClick={handleLogOut} className="log_out">
+        <button
+          onClick={() => {
+            handleLogOut();
+          }}
+          className="log_out"
+        >
           Log out
         </button>
       </div>
