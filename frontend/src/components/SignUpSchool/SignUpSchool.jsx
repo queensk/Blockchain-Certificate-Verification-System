@@ -3,7 +3,7 @@ import TextInput from "../TextInput/TextInput";
 import api from "../../api/api.jsx";
 import MessagePopUp from "../MessagePopUp/MessagePopUp";
 
-export default function SignUpSchool() {
+export default function SignUpSchool({ setShowSignUp }) {
   const [schoolName, setSchoolName] = useState("");
   const [schoolLocation, setSchoolLocation] = useState("");
   const [schoolEmail, setSchoolEmail] = useState("");
@@ -31,6 +31,7 @@ export default function SignUpSchool() {
           setSchoolEmail("");
           setSchoolLocation("");
           setSchoolName("");
+          setShowSignUp(true);
         }
       })
       .catch((error) => {
