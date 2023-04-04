@@ -12,4 +12,7 @@ from app.api.v1.views.schools import *
 from app.api.v1.views.users import *
 from app.api.v1.views.index import *
 from app.api.v1.views.certificates import *
-from api.v1.views.certificate_contract import *
+from app.api.v1.views.certificate_contract import *
+from app.api.v1.views.login import *
+from app.api.v1.views.certificate_pdf_Parsing import *
+from app.api.v1.views.certificate_verification_request import *
