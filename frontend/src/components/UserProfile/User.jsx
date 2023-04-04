@@ -3,6 +3,7 @@ import storage from "../../config/firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ErrorPopUp from "../MessagePopUp/MessagePopUp";
 import api from "../../api/api.jsx";
+import Avatar from "@mui/material/Avatar";
 
 export default function User({
   email,
@@ -93,7 +94,14 @@ export default function User({
       {error && <ErrorPopUp message={error} setMessage={setError} />}
       <div className="user-profile">
         <div className="user-profile-image">
-          <img src={profile_url} alt="Profile" />
+          <Avatar
+            alt="Profile"
+            src={profile_url}
+            sx={{ width: 200, height: 200 }}
+            style={{
+              border: "2px solid red",
+            }}
+          />
         </div>
         <div className="user-profile-data">
           {isEditing ? (
