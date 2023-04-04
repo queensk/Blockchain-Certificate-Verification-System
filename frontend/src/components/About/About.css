@@ -1,3 +1,28 @@
 .about-component {
-  width: 20%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.about-component h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.about-component p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.about-component ul {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.about-component li {
+  margin-bottom: 5px;
 }
