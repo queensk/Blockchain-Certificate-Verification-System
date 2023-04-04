@@ -5,10 +5,11 @@ Schools AIP action
 from app.models import storage
 from app.api.v1.views import app_views
 from app.models.certificate import Certificate
+from app.models.certificate_request_verification import VerifyCertificate
 from flask import abort, jsonify, make_response, request
 
 
-@app_views.route('/certificates', methods=['GET'], strict_slashes=False)
+@app_views.route('/certificate', methods=['GET'], strict_slashes=False)
 def get_certificate():
     """
     Retrieves the list of all certificate objects
@@ -21,7 +22,25 @@ def get_certificate():
     return jsonify(list_certificates)
 
 
-@app_views.route('/certificate/<certificate_id>',
+@app_views.route('/users/<user_id>/certificate', methods=['GET'], strict_slashes=False)
+def get_user_certificate(user_id):
+    """
+    Retrieves the list of all certificate objects
+    for a specific user
+    """
+    all_certificates = storage.get_user_certificates(Certificate, user_id)
+    if not all_certificates:
+        abort(404, "No certificate was found")
+    list_certificates = []
+    for certificate in all_certificates:
+        certificate_verification_status = storage.get_certificates_status(VerifyCertificate, certificate.id)
+        certificate_data = certificate.to_dict()
+        certificate_data["certificate_status"] = certificate_verification_status.certificate_status
+        list_certificates.append(certificate_data)
+    return jsonify(list_certificates)
+
+
+@app_views.route('certificate/<certificate_id>',
                  methods=['GET'], strict_slashes=False)
 def get_Certificate(certificate_id):
     """ Retrieves an Certificate """
@@ -31,7 +50,7 @@ def get_Certificate(certificate_id):
     return jsonify(certificate.to_dict())
 
 
-@app_views.route('/certificates/<certificate_id>', methods=['DELETE'],
+@app_views.route('/users/<user_id>/certificates/<certificate_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_Certificate(certificate_id):
     """
@@ -49,8 +68,8 @@ def delete_Certificate(certificate_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/certificates', methods=['POST'], strict_slashes=False)
-def post_certificate():
+@app_views.route('/users/<user_id>/certificates', methods=['POST'], strict_slashes=False)
+def post_certificate(user_id):
     """
     Creates a certificate
     """
@@ -61,7 +80,7 @@ def post_certificate():
         abort(400, description="student_name")
     if 'student_email' not in data:
         abort(400, description="Missing student email")
-    if "school_id" not in data:
+    if "school_id" not in data: 
         abort(400, 'Missing school id')
     if "school_name" not in data:
         abort(400, 'Missing school name')
@@ -72,14 +91,24 @@ def post_certificate():
     if "school_location" not in data:
         abort(400, "MIssing school location")
 
+    data['user_id'] = user_id
     instance = Certificate(**data)
+    certificate_status = {
+        "user_id": user_id,
+        "school_id": instance.school_id,
+        "certificate_id": instance.id
+    }
+    status = VerifyCertificate(**certificate_status)
     instance.save()
-    return make_response(jsonify(instance.to_dict()), 201)
+    status.save()
+    certificate = instance.to_dict()  
+    certificate["certificate_status"] = status.certificate_status
+    return make_response(jsonify(certificate), 201)
 
 
-@app_views.route('/certificates/<certificate_id>',
+@app_views.route('/users/<user_id>/certificates/<certificate_id>',
                  methods=['PUT'], strict_slashes=False)
-def put_certificate(certificate_id):
+def put_certificate(user_id, certificate_id):
     """
     Updates a certificate
     """
