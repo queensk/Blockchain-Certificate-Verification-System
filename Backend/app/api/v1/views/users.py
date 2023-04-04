@@ -54,15 +54,16 @@ def post_user():
     """
     Creates a user
     """
-    if not request.get_json():
+    data = request.get_json()
+
+    if not data:
         abort(400, description="Not a JSON")
 
-    if 'email' not in request.get_json():
+    if not data['email']:
         abort(400, description="Missing email")
-    if 'password' not in request.get_json():
+    if not data['password']:
         abort(400, description="Missing password")
 
-    data = request.get_json()
     instance = User(**data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
@@ -81,7 +82,7 @@ def put_user(user_id):
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'email', 'created_at', 'updated_at']
+    ignore = ['id', 'created_at', 'updated_at']
 
     data = request.get_json()
     for key, value in data.items():
