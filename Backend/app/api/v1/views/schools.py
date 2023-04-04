@@ -74,14 +74,15 @@ def put_school(school_id):
     Updates a school
     """
     school = storage.get(School, school_id)
-
+    data = request.get_json()
+    print(data)
     if not school:
         abort(404)
 
-    if not request.get_json():
+    if not data:
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'email', 'created_at', 'updated_at']
+    ignore = ['id', 'created_at', 'updated_at']
 
     data = request.get_json()
     for key, value in data.items():
