@@ -6,7 +6,7 @@ from app import models
 from app.models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
-from sqlalchemy import Column, String, Boolean, Integer, ForeignKey
+from sqlalchemy import Column, String, Boolean, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 
@@ -21,10 +21,17 @@ class Certificate(BaseModel, Base):
     school_major = Column(String(128), nullable=True)
     school_department = Column(String(128), nullable=True)
     school_location = Column(String(128), nullable=True)
-    certificate_verify = Column(Boolean, nullable=False, default=False)
+    verified_certificate = Column(Boolean, nullable=False, default=False)
     certificate_hash = Column(String(128))
+    completion_data = Column(DateTime)
     user_id = Column(String(60), ForeignKey('users.id'))
     school_id = Column(String(60), ForeignKey('schools.id'))
+    certificates_verify_status = relationship(
+        "VerifyCertificate",
+        backref="certificates",
+        lazy='dynamic',
+        cascade="all, delete, delete-orphan")
+
 
     def __init__(self, *args, **kwargs):
         """

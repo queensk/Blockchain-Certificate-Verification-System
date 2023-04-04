@@ -8,12 +8,14 @@ from app.models.base_model import BaseModel, Base
 from app.models.user import User
 from app.models.school import School
 from app.models.certificate import Certificate
+from app.models.certificate_request_verification import VerifyCertificate
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import datetime
 
-classes = {"User": User, "School": School, "Certificate": Certificate}
+classes = {"User": User, "School": School, "Certificate": Certificate, "VerifyCertificate":VerifyCertificate}
 
 
 class DBstorage:
@@ -124,6 +126,48 @@ class DBstorage:
                 return value
         return None
 
+    def get_user_certificates(self, cls, user_id):
+        """
+        Return a list of objects based on classname and user_id
+        """
+        if cls not in classes.values():
+            return None
+            
+        all_cls = models.storage.all(cls)
+        certificates = []
+        for value in all_cls.values():
+            if isinstance(value, Certificate) and (value.user_id == user_id or value.school_id == user_id):
+                certificates.append(value)
+        return certificates
+
+
+
+    def get_certificates_status(self, cls, certificate_id):
+        """
+        Return an object based on classname and certificate id
+        """
+        if cls not in classes.values():
+            return None
+        
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if isinstance(value, VerifyCertificate) and value.certificate_id == certificate_id:
+                return value
+
+    def get_user_schools(self, cls, user_id):
+        """
+        Return an object based on classname and certificate id
+        """
+        if cls not in classes.values():
+            return None
+        
+        all_cls = models.storage.all(cls)
+        user_schools = []
+        for value in all_cls.values():
+            if isinstance(value, School) and value.user_id == user_id:
+                user_schools.append(value)
+        return user_schools
+
     def count(self, cls=None):
         """
         Count objects
@@ -137,4 +181,43 @@ class DBstorage:
         else:
             count = len(models.storage.all(cls).values())
 
+        return count
+
+    def increase(self, cls=None):
+        """
+        Calculate percentage increase of object value
+        """
+        all_class = classes.values()
+        today = datetime.datetime.utcnow()
+        week_ago = today - datetime.timedelta(days=7)
+        increase = 0
+
+        if not cls:
+            for clas in all_class:
+                all_cls = models.storage.all(clas)
+                for value in all_cls.values():
+                    if isinstance(value, User) and value.created_at >= week_ago:
+                        increase += 1
+                    if isinstance(value, School) and value.created_at >= week_ago:
+                        increase += 1
+                    if isinstance(value, Certificate) and value.created_at >= week_ago:
+                        increase += 1
+                    return increase
+        else:
+            all_cls = models.storage.all(cls)
+            for value in all_cls.values():
+                if isinstance(value, User) and value.created_at >= week_ago:
+                    increase += 1
+                if isinstance(value, School) and value.created_at >= week_ago:
+                    increase += 1
+                if isinstance(value, Certificate) and value.created_at >= week_ago:
+                    increase += 1
+                return increase
+            
+    def verified_certificate_count(self):
+        cls = models.storage.all(Certificate)
+        count = 0
+        for value in cls.values():
+            if isinstance(value, Certificate) and value.certificate_verify == True:
+                count +=1
         return count
