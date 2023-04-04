@@ -4,17 +4,21 @@ import storage from "../../config/firebase/firebaseConfig";
 import PDFDataExtractor from "../PDFDataExtractor/PDFDataExtractor";
 import api from "../../api/api.jsx";
 import ErrorPopUp from "../MessagePopUp/MessagePopUp";
+import Certificate from "../Certificate/Certificate";
 
-export default function UploadFile({ userId, firstName, lastName }) {
+export default function UploadFile({ userId, firstName, lastName, userRole }) {
   const [file, setFile] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [downloadURL, setDownloadURL] = useState(null);
   const [pdfData, setPdfData] = useState({});
   const [error, setError] = useState(false);
+  const [certificateUploadData, setCertificateUploadData] = useState(null);
+  const [verificationRequested, setVerificationRequested] = useState(false);
 
   const data = {
     pdfURL: downloadURL,
   };
+
   const handleDragEnter = (e) => {
     e.preventDefault();
     setDragging(true);
@@ -69,6 +73,39 @@ export default function UploadFile({ userId, firstName, lastName }) {
       .catch((error) => setError("OOPS! a network error occurred"));
   };
 
+  const handleRequestVerification = (certificateId) => {
+    setVerificationRequested(true);
+    if (userRole === "school") {
+      const verify = {
+        certificate_status: "verified",
+      };
+
+      api
+        .post(`/add-certificate/${certificateId}`, verify)
+        .then((response) => {
+          setCertificateUploadData(response.data);
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const verify = {
+        certificate_status: "pending",
+      };
+
+      api
+        .post(`/certificate/${certificateId}/request/verify`, verify)
+        .then((response) => {
+          setCertificateUploadData(response.data);
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <>
       {error && <ErrorPopUp message={error} setMessage={setError} />}
@@ -100,7 +137,18 @@ export default function UploadFile({ userId, firstName, lastName }) {
           Upload PDF
         </button>
       </div>
-      <PDFDataExtractor pdfData={pdfData} />
+      <PDFDataExtractor
+        pdfData={pdfData}
+        setCertificateUploadData={setCertificateUploadData}
+      />
+      {!verificationRequested && certificateUploadData && (
+        <div className="certificate-user-data">
+          <Certificate
+            {...certificateUploadData}
+            handleRequestVerification={handleRequestVerification}
+          />
+        </div>
+      )}
     </>
   );
 }
