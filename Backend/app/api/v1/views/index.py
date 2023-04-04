@@ -29,5 +29,8 @@ def number_objects():
     num_objs = {}
     for i in range(len(classes)):
         num_objs[names[i]] = storage.count(classes[i])
+        num_objs[names[i]+"_increase"] = storage.increase(classes[i])
+
+    num_objs["verified_certificate"] = storage.verified_certificate_count()
 
     return jsonify(num_objs)
