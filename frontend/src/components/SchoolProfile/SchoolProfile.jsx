@@ -20,6 +20,7 @@ export default function SchoolProfile({ userId }) {
         setError("An error occurred while connecting to the server!");
       });
   }, [userId]);
+
   const handleSaveAbout = () => {
     const data = {
       about_profile: user.about_profile,
