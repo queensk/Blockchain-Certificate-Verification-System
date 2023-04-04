@@ -1,0 +1,14 @@
+.unauthorized-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.unauthorized-text {
+  font-size: 3rem;
+  color: #ff0000;
+  text-align: center;
+  text-shadow: 1px 1px #000;
+}
+    
