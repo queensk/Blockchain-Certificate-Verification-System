@@ -67,7 +67,7 @@ const Search = ({
   const handleBlur = () => {
     setTimeout(() => {
       setShowSearch(false);
-    }, 100);
+    }, 500);
   };
   return (
     <div className="search-container">
