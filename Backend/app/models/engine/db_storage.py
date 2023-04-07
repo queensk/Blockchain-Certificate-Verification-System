@@ -9,13 +9,14 @@ from app.models.user import User
 from app.models.school import School
 from app.models.certificate import Certificate
 from app.models.certificate_request_verification import VerifyCertificate
+from app.models.admin import Admin
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import datetime
 
-classes = {"User": User, "School": School, "Certificate": Certificate, "VerifyCertificate":VerifyCertificate}
+classes = {"User": User, "School": School, "Certificate": Certificate, "VerifyCertificate":VerifyCertificate, "Admin":Admin}
 
 
 class DBstorage:
@@ -124,6 +125,8 @@ class DBstorage:
                 return value
             if isinstance(value, School) and value.email == email:
                 return value
+            if isinstance(value, Admin) and value.email == email:
+                return value
         return None
 
     def get_user_certificates(self, cls, user_id):
@@ -218,6 +221,6 @@ class DBstorage:
         cls = models.storage.all(Certificate)
         count = 0
         for value in cls.values():
-            if isinstance(value, Certificate) and value.certificate_verify == True:
+            if isinstance(value, Certificate) and value.verified_certificate == True:
                 count +=1
         return count
