@@ -26,12 +26,12 @@ export default function SignInSchool({ authenticated, setToken, userRole }) {
     };
 
     api
-      .post("/login", data)
+      .post("/login-admin", data)
       .then((response) => {
         localStorage.setItem("appCertificate", response.data.token);
         setToken(localStorage.getItem("appCertificate"));
       })
-      // .then(() => { 
+      // .then(() => {
       //   navigate("/school/dashboard");
       // })
       .catch((error) => {
