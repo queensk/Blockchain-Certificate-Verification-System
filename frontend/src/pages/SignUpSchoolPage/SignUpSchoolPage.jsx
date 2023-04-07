@@ -15,7 +15,6 @@ export default function SignUpSchoolPage() {
   useEffect(() => {
     if (authenticated && userRole === "school") {
       navigate("/school/dashboard");
-      console.log("me");
     }
   }, [authenticated, navigate, userRole]);
 
