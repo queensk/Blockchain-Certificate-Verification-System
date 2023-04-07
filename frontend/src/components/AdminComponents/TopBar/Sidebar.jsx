@@ -11,6 +11,8 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SchoolIcon from "@mui/icons-material/School";
+import Avatar from "@mui/material/Avatar";
+import { deepOrange } from "@mui/material/colors";
 import { AuthContext } from "../../../CustomHooks/Context/AuthProvider";
 import api from "../../../api/api";
 
@@ -29,8 +31,6 @@ const Item = ({
     setSelected(title);
     setSelectedSideBarItem(title);
   };
-
-  
 
   return (
     <MenuItem
@@ -54,27 +54,23 @@ const Sidebar = ({ setSelectedSideBarItem }) => {
   const [selected, setSelected] = useState("Dashboard");
   const [user, setUser] = useState({});
 
-  const {
-    authenticated,
-    userId,
-    // firstName,
-    // lastName,
-    // userRole,
-    // setToken,
-    // setAuthenticated,
-  } = useContext(AuthContext);
-
+  const { userId, setToken, setAuthenticated } = useContext(AuthContext);
+  const handleLogOut = () => {
+    localStorage.removeItem("appCertificate");
+    setAuthenticated(false);
+    setToken(null);
+  };
   useEffect(() => {
     api
-      .get(`/users/${userId}`)
+      .get(`/admins/${userId}`)
       .then((response) => {
         setUser(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  });
-
+  }, [userId]);
+  console.log(user);
   return (
     <Box
       sx={{
@@ -126,12 +122,10 @@ const Sidebar = ({ setSelectedSideBarItem }) => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                <Avatar
+                  sx={{ bgcolor: deepOrange[500] }}
+                  alt={user.username}
+                  src="/broken-image.jpg"
                 />
               </Box>
               <Box textAlign="center">
@@ -141,11 +135,14 @@ const Sidebar = ({ setSelectedSideBarItem }) => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {user ? `${user.first_name} ${user.last_name}` : ""}
+                  {user ? `${user.username}` : ""}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Admin
                 </Typography>
+                <button onClick={handleLogOut} className="log_out">
+                  Log out
+                </button>
               </Box>
             </Box>
           )}
