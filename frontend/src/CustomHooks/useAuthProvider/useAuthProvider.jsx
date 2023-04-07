@@ -34,13 +34,8 @@ function useAuthenticator() {
 
   useEffect(() => {
     setToken(getToken());
+    setDecode(decodeToken(token));
     if (token) {
-      console.log(token);
-      console.log(userRole);
-      console.log(authenticated);
-      console.log(firstName);
-      // const decode = decodeToken(token);
-      // const currentTime = new Date().getTime() / 1000;
       if (checkExp(decode?.exp)) {
         if (decode?.role !== "school") {
           setAuthenticated(true);
@@ -60,19 +55,14 @@ function useAuthenticator() {
         setAuthenticated(false);
         setFirstName(null);
         setLastName(null);
-        // localStorage.clear();
       }
     } else {
-      // localStorage.clear();
       setAuthenticated(false);
       setFirstName("");
       setLastName("");
       setUserId("");
       setUserEmail("");
     }
-    // if (!token) {
-    //   setToken(localStorage.getItem("appCertificate"));
-    // }
   }, [
     token,
     authenticated,
