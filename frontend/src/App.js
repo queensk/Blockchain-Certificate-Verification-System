@@ -7,9 +7,10 @@ import School from "./pages/School/School";
 import { AuthContext } from "./CustomHooks/Context/AuthProvider";
 import SignUpSchoolPage from "./pages/SignUpSchoolPage/SignUpSchoolPage";
 import Admin from "./pages/Admin/Admin";
-import RequireAuth from "./components/RequireAuth/RequireAuth";
-import Unauthorized from "./components/Unauthorized/Unauthorized";
-// import ProtectedRoute from "./pages/ProtectedRoute";
+import VerifyCertificate from "./pages/VerifyCertificate/VerifyCertificate";
+import AdminSignup from "./pages/AdminSignup/AdminSignup";
+// import RequireAuth from "./components/RequireAuth/RequireAuth";
+// import Unauthorized from "./components/Unauthorized/Unauthorized";
 
 const ProtectedRoute = ({
   component: Component,
@@ -44,8 +45,6 @@ const UserPageWrapper = () => {
 
 const SchoolWrapper = () => {
   const { authenticated, userRole } = useContext(AuthContext);
-  console.log(authenticated);
-  console.log(userRole);
   return (
     <ProtectedRoute
       isAuthenticated={authenticated}
@@ -70,23 +69,8 @@ const AdminWrapper = () => {
 };
 
 function App() {
-  const {
-    token,
-    authenticated,
-    userId,
-    firstName,
-    lastName,
-    userRole,
-    setToken,
-    setAuthenticated,
-  } = useContext(AuthContext);
-  console.log(authenticated);
-  console.log(userRole);
-  const ROLES = {
-    USER: "user",
-    SCHOOL: "school",
-    ADMIN: "admin",
-  };
+  const { token, authenticated, setToken } = useContext(AuthContext);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -101,6 +85,7 @@ function App() {
               />
             }
           />
+          <Route path="/verify" element={<VerifyCertificate />} />
           {/* public routes */}
           <Route
             path="/school/signup"
@@ -111,27 +96,16 @@ function App() {
               />
             }
           />
+          <Route
+            path="/admin/signup"
+            element={
+              <AdminSignup authenticated={authenticated} setToken={setToken} />
+            }
+          />
           {/* protected routes */}
           <Route path="/user/dashboard" element={<UserPageWrapper />} />
           <Route path="/school/dashboard" element={<SchoolWrapper />} />
           <Route path="/admin/dashboard" element={<AdminWrapper />} />
-          {/* <Route
-            path="/user/dashboard"
-            element={
-              <UserPage  />}
-          />
-          <Route
-            path="/school/dashboard"
-            element={
-              <School />}
-          />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <Admin />}
-          /> */}
-          {/* </Route> */}
-          {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
@@ -140,94 +114,3 @@ function App() {
 }
 
 export default App;
-{
-  /* <Route
-            path="/user/dashboard"
-            element={<Private Component={UserPage} role="user" />}
-          />
-          <Route
-            path="/school/dashboard"
-            element={<Private Component={School} role="school" />}
-          />
-          <Route
-            path="/admin/dashboard"
-            element={<Private Component={Admin} role="admin" />}
-          /> */
-}
-
-{
-  /* <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
-          <Route
-            path="/user/dashboard"
-            element={
-              <UserPage
-                userId={userId}
-                firstName={firstName}
-                lastName={lastName}
-                setToken={setToken}
-                setAuthenticated={setAuthenticated}
-            }
-          />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.SCHOOL]} />}>
-          <Route
-            path="/school/dashboard"
-            element={
-              <School
-                userId={userId}
-                firstName={firstName}
-                lastName={lastName}
-              />
-            }
-          />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path="/admin/dashboard" element={<Admin />} />
-        </Route> */
-}
-{
-  /* <Route
-          path="/user/dashboard"
-          element={
-            <UserPage
-              userId={userId}
-              firstName={firstName}
-              lastName={lastName}
-              setToken={setToken}
-              setAuthenticated={setAuthenticated}
-            />
-          }
-        />
-        <Route
-          path="/school/dashboard"
-          element={
-            <School userId={userId} firstName={firstName} lastName={lastName} />
-          }
-        />
-        <Route path="/admin/dashboard" element={<Admin />} /> */
-}
-{
-  /* <ProtectedRoute
-          path="/user/dashboard"
-          role={ROLES.USER}
-          component={UserPage}
-          userId={userId}
-          firstName={firstName}
-          lastName={lastName}
-          setToken={setToken}
-          setAuthenticated={setAuthenticated}
-        />
-        <ProtectedRoute
-          path="/school/dashboard"
-          role={ROLES.SCHOOL}
-          component={School}
-          userId={userId}
-          firstName={firstName}
-          lastName={lastName}
-        />
-        <ProtectedRoute
-          path="/admin/dashboard"
-          role={ROLES.ADMIN}
-          component={Admin}
-        /> */
-}

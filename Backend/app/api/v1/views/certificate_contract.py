@@ -92,7 +92,7 @@ def add_contract_certificate(certificate_id):
         certificate_verification_status = storage.get_certificates_status(VerifyCertificate, certificate.id)
         setattr(certificate_verification_status, "certificate_status", "pending")
         storage.save()
-    
+
 
         return jsonify({'success': True, 'certificate_data': certificate.to_dict()})
 
